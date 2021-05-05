@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="3">
+	<com.4d>
+		<compiler>
+			<options target="all"/>
+		</compiler>
+		<web>
+			<standalone_server>
+				<configuration port_number="80" reuse_context="false" session_mode="2"/>
+				<options>
+					<cache cache_max_size="524288" use_4d_web_cache="false"/>
+					<web_passwords kind="1"/>
+				</options>
+			</standalone_server>
+		</web>
+	</com.4d>
+</preferences>
