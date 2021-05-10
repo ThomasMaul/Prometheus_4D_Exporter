@@ -39,7 +39,7 @@ End if
 
 Modify /Metrics to another URL if required (which needs to adapt prometheus.yml as well, by example:  metrics_path: /my4Dmetrics )
 
-Copy the file metrics.shtml from the resource folder of the component into the resource folder of your main application.
+Copy the file metrics.shtml from the resource folder of the component into the resource folder of your main application. The file metrics.shtml uses a tag feature only available in 4D v19: 4DEACH. To run it in v18, you need to rewrite 4DEACH loops to 4DFOR loops. This is possible with some effort, so I recommend to use 4D v19.
 
 
 
