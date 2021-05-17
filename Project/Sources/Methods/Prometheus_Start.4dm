@@ -2,7 +2,7 @@
 #DECLARE($para : Object)
 
 $settings:=New object:C1471
-$settings.HTTPPort:=9823
+$settings.HTTPPort:=9826
 $settings.HTTPSPort:=9433
 $settings.HTTPSEnabled:=False:C215
 

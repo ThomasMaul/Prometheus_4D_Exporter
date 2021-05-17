@@ -14,19 +14,19 @@ In your On Server Startup method call:
 		ARRAY TEXT($tTxt_Components; 0)
 		COMPONENT LIST($tTxt_Components)
 		If (Find in array($tTxt_Components; "Prometheus_4D_Exporter")>0)
-			$para:=New object("HTTPPort"; 9823; "user"; "myusername"; "pass"; "mypassworrd")
+			$para:=New object("HTTPPort"; 9826; "user"; "myusername"; "pass"; "mypassword")
 			EXECUTE METHOD("Prometheus_Start"; *; $para)
 		End if 
 	End if 
 ```
 
-Change port, username, password as needed. If you do not pass user/pass the server runs without authentication. Default port: 9823.
+Change HTTPPort (default 9826), HTTPSPort (default 9843), username, password as needed. If you do not pass user/pass the server runs without authentication. 
 
 You can disable the exporter at any time by removing it from the component folder and restart 4D.
 
-###### Alternative installation for 4D v18
+###### Alternative installation for 4D v19
 
-For 4D v18 (which does not support multiple web servers) or if you want to share the main web server, add to your onWebConnection database method:
+If you want to share the main web server, add to your onWebConnection database method:
 
 ```
 If ($1="/Metrics")
@@ -41,6 +41,12 @@ Modify /Metrics to another URL if required (which needs to adapt prometheus.yml 
 
 Copy the file metrics.shtml from the resource folder of the component into the resource folder of your main application.
 
+###### Usage with 4D v18
+
+For 4D v18 (which does not support multiple web servers) follow the alternative installation (share the main web server). You also need to rewrite metrics.shtml, as v18 does not support the 4DEACH Tag. You need to rewrite it to 4DFOR loops. 
+
+Documenation: https://doc.4d.com/4Dv18/4D/18.4/4D-Transformation-Tags.300-5233786.en.html
+
 
 
 ### Prometheus Setup
@@ -51,7 +57,7 @@ Add to your prometheus.yml file a job such as:
   - job_name: 'My4DDatabase'
     scrape_interval:     60s
     static_configs:
-    - targets: ['192.168.0.34:9823']	
+    - targets: ['192.168.0.34:9826']	
 ```
 
 The metrics are calculated for 60 seconds. If you want to change the interval, the used code needs to be changed as well.
