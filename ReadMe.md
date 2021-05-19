@@ -14,13 +14,13 @@ In your On Server Startup method call:
 		ARRAY TEXT($tTxt_Components; 0)
 		COMPONENT LIST($tTxt_Components)
 		If (Find in array($tTxt_Components; "Prometheus_4D_Exporter")>0)
-			$para:=New object("HTTPPort"; 9826; "user"; "myusername"; "pass"; "mypassword")
+			$para:=New object("HTTPPort"; 9828; "user"; "myusername"; "pass"; "mypassword")
 			EXECUTE METHOD("Prometheus_Start"; *; $para)
 		End if 
 	End if 
 ```
 
-Change HTTPPort (default 9826), HTTPSPort (default 9843), username, password as needed. If you do not pass user/pass the server runs without authentication. 
+Change HTTPPort (default 9828), HTTPSPort (default 9843), username, password as needed. If you do not pass user/pass the server runs without authentication. 
 
 You can disable the exporter at any time by removing it from the component folder and restart 4D.
 
@@ -57,7 +57,7 @@ Add to your prometheus.yml file a job such as:
   - job_name: 'My4DDatabase'
     scrape_interval:     60s
     static_configs:
-    - targets: ['192.168.0.34:9826']	
+    - targets: ['192.168.0.34:9828']	
 ```
 
 The metrics are calculated for 60 seconds. If you want to change the interval, the used code needs to be changed as well.
