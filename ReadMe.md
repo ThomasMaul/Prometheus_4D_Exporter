@@ -66,3 +66,22 @@ The metrics are calculated for 60 seconds. If you want to change the interval, t
 
 The metrics starts all with "FourD_". They return metrics about total number of connected clients, running processes, memory usage details, detailed information about database usage (read from disk, write to disk, read from Memory in total and per table) and for queries the count and time per query operation
 
+
+
+### Grafana Dashbaord	
+
+An example dashboard is included in the "Grafana" [folder](Grafana/4D-1622574690034.json).
+
+The dashboard shows memory usage (free, virtual, cache, etc), Client and process usage, total database measures (read and write to disk and read from cache for all database operations) and scrap time. The scrap time is useful to see if the total system behave slower than normal.
+
+![screen1.jpg](Documentation/Screen1.png)
+
+Followed by read from disk per table, focused on records on the left, on disk on the right, below the same for writing to disk:
+
+![Screen 2](Documentation/Screen2.png)
+
+Followed by reading from cache, left records per table, right index per table.
+
+Below analyze per query. On the right total execution counted, on the left total time need per queries type
+
+![Screen3](Documentation/Screen3.png)
