@@ -80,7 +80,7 @@ Followed by read from disk per table, focused on records on the left, on disk on
 
 ![Screen 2](Documentation/Screen2.png)
 
-Followed by reading from cache, left records per table, right index per table.
+Followed by reading from cache, left records per table, right index per table. Move the mouse over a line (or dot) to see a legend (details about each table)
 
 Below analyze per query. On the right total execution counted, on the left total time need per queries type
 
