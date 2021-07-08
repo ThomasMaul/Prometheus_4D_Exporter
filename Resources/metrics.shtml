@@ -97,30 +97,31 @@ FourD_Measures_WriteDisk_bytes{table="<!--#4DTEXT $table-->", type="data"} <!--#
 $total:=$measures.DB.tables[$table].cacheReadBytes.history.query("time>:1";$history).sum("value")--><!--#4DIF ($total#0)-->
 FourD_Measures_ReadCache_bytes{table="<!--#4DTEXT $table-->", type="data"} <!--#4DTEXT $total--><!--4DENDIF--><!--4DENDIF--><!--#4DENDEACH-->
 
+<!--#4DIF ($col2.length>0)-->
 # HELP FourD_Measures_Queries_milliseconds Top 20 queries in total time per 60 seconds
-# HELP FourD_Measures_Queries_total Top 20 queries in total executed per 60 seconds
 # TYPE FourD_Measures_Queries_milliseconds gauge
+<!--#4DEACH $query in $col2-->
+FourD_Measures_Queries_milliseconds{statement="<!--#4DHTML $query.queryStatement-->"} <!--#4DTEXT $query.value--><!--#4DENDEACH--><!--4DENDIF-->
+<!--#4DIF ($col.length>0)-->
+# HELP FourD_Measures_Queries_total Top 20 queries in total executed per 60 seconds
 # TYPE FourD_Measures_Queries_total gauge
 <!--#4DEACH $query in $col-->
-FourD_Measures_Queries_total{statement="<!--#4DHTML $query.queryStatement-->"} <!--#4DTEXT $query.value--><!--#4DENDEACH-->
-<!--#4DEACH $query in $col2-->
-FourD_Measures_Queries_milliseconds{statement="<!--#4DHTML $query.queryStatement-->"} <!--#4DTEXT $query.value--><!--#4DENDEACH-->
+FourD_Measures_Queries_total{statement="<!--#4DHTML $query.queryStatement-->"} <!--#4DTEXT $query.value--><!--#4DENDEACH--><!--4DENDIF-->
 
 
-
-
-<!--#4DEACH $tablename in $measures.DB.indexes-->
-<!--#4DCODE
+<!--#4DEACH $tablename in $measures.DB.indexes--><!--#4DCODE
 $table:=$measures.DB.indexes[$tablename]
 	$totalcache:=0
 	$totaldisk:=0
 	$totaldiskwrite:=0
 	For each ($index; $table)
 	    if ($table[$index].cacheReadBytes.history # null)
-		$read:=$table[$index].cacheReadBytes.history.query("time>:1"; $history).sum("value")
-		$totalcache:=$totalcache+$read
-		$read:=$table[$index].diskReadBytes.history.query("time>:1"; $history).sum("value")
-		$totaldisk:=$totaldisk+$read
+			$read:=$table[$index].cacheReadBytes.history.query("time>:1"; $history).sum("value")
+			$totalcache:=$totalcache+$read
+		end if
+	    if ($table[$index].diskReadBytes.history # null)
+			$read:=$table[$index].diskReadBytes.history.query("time>:1"; $history).sum("value")
+			$totaldisk:=$totaldisk+$read
 		end if
 		if($table[$index].diskWriteBytes.history#null)
 			$read:=$table[$index].diskWriteBytes.history.query("time>:1"; $history).sum("value")
@@ -129,11 +130,11 @@ $table:=$measures.DB.indexes[$tablename]
 	End for each -->
 <!--#4DIF $totalcache#0-->FourD_Measures_ReadCache_bytes{table="<!--#4DTEXT $tablename-->", type="index"} <!--#4DTEXT $totalcache--><!--#4DENDIF-->
 <!--#4DIF $totaldisk#0-->FourD_Measures_ReadDisk_bytes{table="<!--#4DTEXT $tablename-->", type="index"} <!--#4DTEXT $totaldisk--><!--#4DENDIF-->
-<!--#4DIF $totaldiskwrite#0-->FourD_Measures_WriteDisk_bytes{table="<!--#4DTEXT $tablename-->", type="index"} <!--#4DTEXT $totaldiskwrite--><!--#4DENDIF-->
-<!--#4DENDEACH-->
-
+<!--#4DIF $totaldiskwrite#0-->FourD_Measures_WriteDisk_bytes{table="<!--#4DTEXT $tablename-->", type="index"} <!--#4DTEXT $totaldiskwrite--><!--#4DENDIF--><!--#4DENDEACH-->
 <!--#4DCODE
 $totaltime:=milliseconds-$time1-->
 # HELP FourD_scrape_duration_milliseconds
 # TYPE FourD_scrape_duration_milliseconds gauge
+
 FourD_scrape_duration_milliseconds <!--#4DTEXT $totaltime-->
+
