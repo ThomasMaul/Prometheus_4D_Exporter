@@ -13,6 +13,7 @@ $param := New Object("withHistory"; True)
 $measures:=Get database measures($param)
 $history:=-60 // negative !!!  60 seconds - modify this if you run the job every 30 or every 120 seconds. Don't go above 120 seconds
 $readBytes:=$measures.DB.diskReadBytes.history.query("time>:1";$history).sum("value")
+$writeBytes:=$measures.DB.diskWriteBytes.history.query("time>:1";$history).sum("value")
 
 $read:=$measures.DB.tables
 $col:=New collection
@@ -85,11 +86,12 @@ FourD_Measures_DB_bytes{DB="readCache"} <!--#4DIF $measures.DB.cacheReadBytes.hi
 $total:=$measures.DB.tables[$table].diskReadBytes.history.query("time>:1";$history).sum("value")--><!--#4DIF ($total#0)-->
 FourD_Measures_ReadDisk_bytes{table="<!--#4DTEXT $table-->", type="data"}<!--#4DTEXT $total--><!--4DENDIF--><!--#4DENDIF--> <!--#4DENDEACH--><!--#4DENDIF--><!--#4DENDIF-->
 
+<!--#4DIF $measures.DB.tables#null--><!--#4DIF (num($writeBytes)#0)-->
 # HELP FourD_Measures_WriteDisk_bytes Write from disk statistics per table
 # TYPE FourD_Measures_WriteDisk_bytes gauge
 <!--#4DEACH $table in $measures.DB.tables--><!--#4DIF ($measures.DB.tables[$table].diskWriteBytes#NULL)--><!--#4DCODE
 $total:=$measures.DB.tables[$table].diskWriteBytes.history.query("time>:1";$history).sum("value")--><!--#4DIF ($total#0)-->
-FourD_Measures_WriteDisk_bytes{table="<!--#4DTEXT $table-->", type="data"} <!--#4DTEXT $total--><!--4DENDIF--> <!--4DENDIF--><!--#4DENDEACH-->
+FourD_Measures_WriteDisk_bytes{table="<!--#4DTEXT $table-->", type="data"} <!--#4DTEXT $total--><!--4DENDIF--> <!--4DENDIF--><!--#4DENDEACH--><!--#4DENDIF--><!--#4DENDIF-->
 
 # HELP FourD_Measures_ReadCache_bytes Read from Cache statistics per table
 # TYPE FourD_Measures_ReadCache_bytes gauge
