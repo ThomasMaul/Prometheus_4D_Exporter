@@ -6,7 +6,7 @@
 
 ###### Recommended way
 
-Copy to 4D's component folder (compile/build upfront for production usage). 4D v19 required. This launches an additional web server on a separated port, not sharing the main web server, only for Prometheus access, keeping the main server more confidential/secure.
+Copy to 4D's component folder (compile/build upfront for production usage). 4D v19 or newer required. This launches an additional web server on a separated port, not sharing the main web server, only for Prometheus access, keeping the main server more confidential/secure.
 
 In your On Server Startup method call:
 
@@ -24,7 +24,7 @@ Change HTTPPort (default 9828), HTTPSPort (default 9843), username, password as 
 
 You can disable the exporter at any time by removing it from the component folder and restart 4D.
 
-###### Alternative installation for 4D v19
+###### Alternative installation
 
 If you want to share the main web server, add to your onWebConnection database method:
 
@@ -40,12 +40,6 @@ End if
 Modify /Metrics to another URL if required (which needs to adapt prometheus.yml as well, by example:  metrics_path: /my4Dmetrics )
 
 Copy the file metrics.shtml from the resource folder of the component into the resource folder of your main application.
-
-###### Usage with 4D v18
-
-For 4D v18 (which does not support multiple web servers) follow the alternative installation (share the main web server). You also need to rewrite metrics.shtml, as v18 does not support the 4DEACH Tag. You need to rewrite it to 4DFOR loops. 
-
-Documenation: https://doc.4d.com/4Dv18/4D/18.4/4D-Transformation-Tags.300-5233786.en.html
 
 
 
@@ -85,3 +79,15 @@ Followed by reading from cache, left records per table, right index per table. M
 Below analyze per query. On the right total execution counted, on the left total time need per queries type
 
 ![Screen3](Documentation/Screen3.png)
+
+
+###  History
+Published 2021 for 4D v19. Introduced at 4DMethod Meeting:
+https://www.youtube.com/watch?v=0999ycYHEtg
+
+Recompiled 2024 for 4D 20 R5 or newer.
+Modifications:
+- Using new var keyword to declare all variables
+- Build + notarize zip, upload as Release 1.1 to be useable with new dependencies.json features in 20 R6 (to download component automatically via project dependencies)
+
+

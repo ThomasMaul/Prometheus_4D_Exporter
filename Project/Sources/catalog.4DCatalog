@@ -2,5 +2,4 @@
 <!DOCTYPE base SYSTEM "http://www.4d.com/dtd/2007/base.dtd" >
 <base name="Prometheus_4D_Exporter" uuid="0C7C67677B46CE4D9E0391A9691C8127" collation_locale="de">
 	<schema name="DEFAULT_SCHEMA"/>
-	<base_extra __stringCompHash="icu:68.1.0" __keywordBuildingHash="icu:68.1.0"/>
 </base>

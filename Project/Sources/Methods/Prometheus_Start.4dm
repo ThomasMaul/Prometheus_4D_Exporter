@@ -1,7 +1,7 @@
 //%attributes = {"shared":true}
 #DECLARE($para : Object)
 
-$settings:=New object:C1471
+var $settings:=New object:C1471
 $settings.HTTPPort:=9828
 $settings.HTTPSPort:=9433
 $settings.HTTPSEnabled:=False:C215
@@ -21,5 +21,5 @@ If (Count parameters:C259>0)
 	End if 
 End if 
 
-$webServer:=WEB Server:C1674(Web server database:K73:30)
+var $webServer:=WEB Server:C1674(Web server database:K73:30)
 $webServer.start($settings)

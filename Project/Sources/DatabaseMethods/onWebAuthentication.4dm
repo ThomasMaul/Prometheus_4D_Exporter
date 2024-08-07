@@ -1,7 +1,7 @@
 C_TEXT:C284($1; $2; $3; $4; $5; $6)
 C_BOOLEAN:C305($0)
-$user:=$5
-$pass:=$6
+var $user:=$5
+var $pass:=$6
 
 $0:=False:C215
 If (String:C10(Storage:C1525.web.user)="")
