@@ -1,10 +1,14 @@
 # Prometheus 4D Exporter
-
+Installs an additional web server for Prometheus metric generation.
+Runs isolated from standard web server for data security (expose the metrics port, but protect/isolate your main server).
 
 
 ### Installation
 
 ###### Recommended way
+
+Note: branch main requires 4D 20 R7 or newer, select branch 4D 20 R5andR6 if needed.
+
 
 Copy to 4D's component folder (compile/build upfront for production usage). 4D v19 or newer required. This launches an additional web server on a separated port, not sharing the main web server, only for Prometheus access, keeping the main server more confidential/secure.
 
@@ -85,9 +89,11 @@ Below analyze per query. On the right total execution counted, on the left total
 Published 2021 for 4D v19. Introduced at 4DMethod Meeting:
 https://www.youtube.com/watch?v=0999ycYHEtg
 
-Recompiled 2024 for 4D 20 R5 or newer.
+Recompiled 2024 for 4D 20 R5 or newer, published as 1.1
 Modifications:
 - Using new var keyword to declare all variables
 - Build + notarize zip, upload as Release 1.1 to be useable with new dependencies.json features in 20 R6 (to download component automatically via project dependencies)
 
+Recompiled 2024 for 4D 20 R7 or newer, published as 1.2
+- changed command names in metrics.shtml from Get license info to license info, etc.
 

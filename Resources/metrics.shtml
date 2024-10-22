@@ -1,33 +1,34 @@
 <!--#4DCODE
-$time1:=milliseconds
-$license:=Get license info
-$clients:=$license.products.query("name='4D Client'")  
+var $time1:=Milliseconds
+var $license:=License info
+var $clients:=$license.products.query("name='4D Client'")
 ARRAY TEXT($arrNames; 0)
 ARRAY REAL($arrValues; 0)
 ARRAY REAL($arrCounter; 0)
-GET MEMORY STATISTICS(1; $arrNames; $arrValues; $arrCounter)
+MEMORY STATISTICS(1; $arrNames; $arrValues; $arrCounter)
 
-C_OBJECT($param)
-C_OBJECT($measures)
-$param := New Object("withHistory"; True)
-$measures:=Get database measures($param)
-$history:=-60 // negative !!!  60 seconds - modify this if you run the job every 30 or every 120 seconds. Don't go above 120 seconds
-$readBytes:=$measures.DB.diskReadBytes.history.query("time>:1";$history).sum("value")
-$writeBytes:=$measures.DB.diskWriteBytes.history.query("time>:1";$history).sum("value")
+var $param; $measures : Object
+$param:=New object("withHistory"; True)
+$measures:=Database measures($param)
+var $history:=-60  // negative !!!  60 seconds - modify this if you run the job every 30 or every 120 seconds. Don't go above 120 seconds
+var $readBytes:=$measures.DB.diskReadBytes.history.query("time>:1"; $history).sum("value")
+var $writeBytes:=$measures.DB.diskWriteBytes.history.query("time>:1"; $history).sum("value")
 
-$read:=$measures.DB.tables
-$col:=New collection
-$col2:=New collection()
-For each ($table; $read)
-	$queries:=$read[$table].queries
+var $read_object:=$measures.DB.tables
+var $col:=New collection
+var $col2:=New collection()
+var $tablename : Text
+For each ($tablename; $read_object)
+	var $queries : Collection:=$read_object[$tablename].queries
+	var $query : Object
 	If ($queries#Null)
 		For each ($query; $queries)
 			If ($query.queryCount#Null)
-				$sub:=$query.queryCount.history.query("time>:1 and value>0";$history)
-				$total:=$sub.sum("value")
+				var $sub : Collection:=$query.queryCount.history.query("time>:1 and value>0"; $history)
+				var $total : Real:=$sub.sum("value")
 				If ($total>0)
-					If ($query.queryStatement#($table+"@"))
-						$name:=$table+" "+$query.queryStatement
+					If ($query.queryStatement#($tablename+"@"))
+						var $name : Text:=$tablename+" "+$query.queryStatement
 					Else 
 						$name:=$query.queryStatement
 					End if 
@@ -36,11 +37,11 @@ For each ($table; $read)
 			End if 
 			
 			If ($query.duration#Null)
-				$sub:=$query.duration.history.query("time>:1 and value>0";$history)
+				$sub:=$query.duration.history.query("time>:1 and value>0"; $history)
 				$total:=$sub.sum("value")
 				If ($total>0)
-					If ($query.queryStatement#($table+"@"))
-						$name:=$table+" "+$query.queryStatement
+					If ($query.queryStatement#($tablename+"@"))
+						$name:=$tablename+" "+$query.queryStatement
 					Else 
 						$name:=$query.queryStatement
 					End if 
